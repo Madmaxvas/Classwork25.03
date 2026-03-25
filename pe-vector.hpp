@@ -8,6 +8,10 @@ namespace knk
    public:
     ~Vector();
     Vector();
+
+    bool isEmpty() const noexept;
+    size_t getSize() const noexept;
+
    private:
     T* data;
     size_t size, capacity;
