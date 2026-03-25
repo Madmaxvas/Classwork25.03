@@ -13,4 +13,8 @@ namespace knk
     size_t size, capacity;
   };
 }
+template< class T >
+knk::Vector< T >::~Vector() {
+  delete [] data_;
+}
 #endif
