@@ -15,7 +15,7 @@ namespace knk
 }
 template< class T >
 bool knk::Vector< T >::isEmpty() const noexept{
-  return false;
+  return !size_;
 } 
 template< class T >
 knk::Vector< T >::Vector(): 
