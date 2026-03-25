@@ -1,5 +1,5 @@
-#include pe-vector.hpp
 #include <iostream>
+#include pe-vector.hpp
 using knk::Vector;
 
 bool test1()
