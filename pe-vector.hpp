@@ -1,6 +1,7 @@
 #ifndef PE_VECTOR_HPP
 #define PE_VECTOR_HPP
-#include <cstdef>
+#include <cstddef>
+#include <algorithm>
 
 namespace knk {
   template< class T >
@@ -15,14 +16,13 @@ namespace knk {
 
     bool isEmpty() const noexcept;
     size_t getSize() const noexcept;
-
-    //Реализовать и протестировать
+    
     size_t getCapacity() const noexcept;
-    void pushBack(const T&);
+    void pushBack(const T& value);
     void popBack();
 
     private:
-    T* data;
+    T* data_;
     size_t size_, capacity_;
 
     explicit Vector(size_t size);
@@ -37,6 +37,18 @@ knk::Vector< T >::Vector(size_t size):
 {}
 
 template< class T >
+knk::Vector< T >::Vector():
+  data_(nullptr),
+  size_(0),
+  capacity_(0)
+{}
+
+template< class T >
+knk::Vector< T >::~Vector() {
+  delete[] data_;
+}
+
+template< class T >
 knk::Vector< T >::Vector(size_t size, const T& value):
   Vector(size)
 {
@@ -46,19 +58,40 @@ knk::Vector< T >::Vector(size_t size, const T& value):
 }
 
 template< class T >
-bool knk::Vector< T >::getSize() const noexcept {
+size_t knk::Vector< T >::getSize() const noexcept {
   return size_;
 }
 
 template< class T >
 bool knk::Vector< T >::isEmpty() const noexcept {
-  return !size_;
+  return size_ == 0;
 }
-knk::Vector< T >::Vector():
-  data(nullptr),
-  size_(0),
-  capacity_(0)
-  delete[] data_;
+
+template< class T >
+size_t knk::Vector< T >::getCapacity() const noexcept {
+  return capacity_;
+}
+
+template< class T >
+void knk::Vector< T >::pushBack(const T& value) {
+  if (size_ == capacity_) {
+    size_t newCap = (capacity_ == 0) ? 1 : capacity_ * 2;
+    T* newData = new T[newCap];
+    for (size_t i = 0; i < size_; ++i) {
+      newData[i] = data_[i];
+    }
+    delete[] data_;
+    data_ = newData;
+    capacity_ = newCap;
+  }
+  data_[size_++] = value;
+}
+
+template< class T >
+void knk::Vector< T >::popBack() {
+  if (size_ > 0) {
+    --size_;
+  }
 }
 
 #endif
